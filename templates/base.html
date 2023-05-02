@@ -34,6 +34,9 @@
   </head>
 
 <body class="text-center">
+{% block header %}
+
+{% endblock %}
 
 {% block flash %}
     {% with msgs = get_flashed_messages() %}

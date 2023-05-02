@@ -1,0 +1,18 @@
+{% extends "registration_base.html" %}
+
+{% block information %}
+    <h1 class="h3 mb-3 fw-normal">Please, login</h1>
+
+    <div class="form-floating">
+        <input type="text" class="form-control" id="floatingInput" name="meta">
+        <label for="floatingInput">{{ meta_fill }}</label>
+    </div>
+    <div class="form-floating">
+        <input type="password" class="form-control" id="floatingPassword" name="password">
+        <label for="floatingPassword">{{ password_fill }}</label>
+    </div>
+{% endblock %}
+
+{% block reg_change %}
+    <a class="nav-link" href="/sign_up">Sign up</a>
+{% endblock %}

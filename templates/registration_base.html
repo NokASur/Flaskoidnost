@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Beginning{% endblock %}
+{% block main %}
+
+    <main class="form-signin">
+        <form method="POST" action="#">
+            {#    <img class="mb-4" src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">#}
+            {% block information %}
+            {% endblock %}
+            <div class="checkbox mb-3">
+                <label>
+                    <input type="checkbox" value="remember-me"> Remember me
+                </label>
+            </div>
+            <button class="w-100 btn btn-lg btn-primary" type="submit">Enter</button>
+            {% block reg_change %}
+            {% endblock %}
+            <p class="mt-5 mb-3 text-muted">&copy; 2023-2023</p>
+        </form>
+    </main>
+
+{% endblock %}
