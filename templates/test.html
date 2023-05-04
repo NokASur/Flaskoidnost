@@ -1,0 +1,44 @@
+{% extends "header_base.html" %}
+
+{% block title %}Test{% endblock %}
+
+{% block css_links %}
+    <link rel="stylesheet" href="{{ url_for('static',filename='/css/tests.css') }}">
+{% endblock %}
+
+{% block main %}
+    <main class="form-question">
+        <h1>Question №1</h1>
+    </main>
+    <main class="form-variants">
+        <form>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="check1" onchange="function checkout_others() {
+                    var i ;
+                    i = document.getElementById('check2');
+                    if (i.checked){
+                        i.checked = false;
+                    }
+                }
+                checkout_others()">
+                <label class="form-check-label" for="flexCheckDefault">
+                    var1
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="check2" checked onchange="function checkout_others() {
+                    var i ;
+                    i = document.getElementById('check1');
+                    if (i.checked){
+                        i.checked = false;
+                    }
+                }
+                checkout_others()">
+                <label class=" form-check-label" for="flexCheckChecked">
+                var2
+                </label>
+            </div>
+        </form>
+    </main>
+
+{% endblock %}

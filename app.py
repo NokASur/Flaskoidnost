@@ -1,36 +1,13 @@
-from flask import Flask, redirect, url_for, render_template, request, session, flash
-from datetime import timedelta
-from flask_sqlalchemy import SQLAlchemy
-from os import environ
-
-app = Flask(__name__)
-app.secret_key = environ["SECRET_KEY"] or "BASIC_KEY"
-app.pemanent_session_lifetime = timedelta(minutes=1)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.sqlite3'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
+from flask import redirect, url_for, render_template, request, session, flash
+from tables import *
 
 
-class User(db.Model):
-    _id = db.Column("id", db.Integer, primary_key=True)
-    name = db.Column(db.String(100))
-    email = db.Column(db.String(100))
-    password = db.Column(db.String(100))
-
-    def __init__(self, password, email, name):
-        self.name = name
-        self.email = email
-        self.password = password
-
-    def repr(self):
-        flash("Name: " + self.name + "\nEmail: " + self.email + "\n")
-
-
-app.app_context().push()
-db.create_all()
+db.session.add(Tests("What is your Weight?"))
+db.session.add(TestStats(1, 10))
 db.session.commit()
-if __name__ == "__main__":
-    app.run()
+
+t = db.session.query(Tests).first()
+print(t.text, t.in_big, t.in_small)
 
 
 @app.route('/')
@@ -123,3 +100,33 @@ def logout():
     if "name" in session:
         session.pop("name")
     return redirect(url_for('login'))
+
+
+@app.route('/test')
+def test():
+    if request.method == "POST":
+        pass
+    if "name" in session:
+        return render_template("test.html")
+    else:
+        return redirect(url_for("login"))
+
+
+@app.route('/profile')
+def profile():
+    if request.method == "POST":
+        pass
+    if "name" in session:
+        return render_template("profile.html")
+    else:
+        return redirect(url_for("login"))
+
+
+@app.route('/recommendations')
+def recommendations():
+    if request.method == "POST":
+        pass
+    if "name" in session:
+        return render_template("recommendations.html")
+    else:
+        return redirect(url_for("login"))
