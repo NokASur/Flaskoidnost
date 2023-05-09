@@ -1,13 +1,29 @@
 from flask import redirect, url_for, render_template, request, session, flash
 from tables import *
 
+question_text = "What is your Weight?"
+# print(db.session.query(Tests).filter(Tests.text == question_text))
+if not db.session.query(Tests).filter(Tests.text == question_text).all():
+    db.session.add(Tests(question_text))
+    question_id = db.session.query(Tests).filter(Tests.text == question_text).first().id
+    db.session.add(Answers("<50kg", question_id, 2))
+    db.session.add(Answers("50-70kg", question_id, 1))
+    db.session.add(Answers(">70kg", question_id, 0))
 
-db.session.add(Tests("What is your Weight?"))
-db.session.add(TestStats(1, 10))
+question_text = "What is your Height?"
+if not db.session.query(Tests).filter(Tests.text == question_text).all():
+    db.session.add(Tests(question_text))
+    question_id = db.session.query(Tests).filter(Tests.text == question_text).first().id
+    db.session.add(Answers("<170sm", question_id, 2))
+    db.session.add(Answers("170-180sm", question_id, 1))
+    db.session.add(Answers(">180sm", question_id, 0))
+
 db.session.commit()
 
 t = db.session.query(Tests).first()
-print(t.text, t.in_big, t.in_small)
+
+
+# print(t.text, t.in_big, t.in_small)
 
 
 @app.route('/')
@@ -42,6 +58,8 @@ def login(meta_fill="Name/Email", password_fill="Password"):
                 session["password"] = account.password
                 session["email"] = account.email
                 session["name"] = account.name
+                session["id"] = db.session.query(User).filter(User.name == session["name"]).first().id
+                session["last_test"] = 1
                 bad = 0
         if bad:
             return render_template("login.html", meta_fill=meta_fill, password_fill=password_fill)
@@ -80,13 +98,15 @@ def sign_up(email_fill="Email", name_fill="Nickname", password_fill="Password"):
             bad = 0
         if bad:
             return render_template("sign_up.html", email_fill=email_fill, name_fill=name_fill, password_fill=password_fill)
-
+        # print(request.form)
         session["password"] = request.form["password"]
         session["email"] = request.form["email"]
         session["name"] = request.form["name"]
+        session["last_test"] = 1
         session.permanent = True
         db.session.add(User(session["password"], session["email"], session["name"]))
         db.session.commit()
+        session["id"] = db.session.query(User).filter(User.name == session["name"]).first().id
         return redirect(url_for("index"))
 
     if "name" in session:
@@ -102,14 +122,60 @@ def logout():
     return redirect(url_for('login'))
 
 
-@app.route('/test')
-def test():
+@app.route('/test/<index>', methods=["POST", "GET"])
+def test(index):
+    index = int(index)
+    print(index)
+    if index < 1:
+        return redirect("/test/1")
+    next_btn_text = "Next question"
+    prev_btn_text = "Previous question"
+    questions = db.session.query(Tests).all()
+
+    if index == len(questions):
+        next_btn_text = "Finish"
+
+    if index > len(questions):
+        return redirect("/done")
+
+    question = questions[index - 1]
+    pos_answers = db.session.query(Answers).filter(Answers.question_id == question.id).all()
+    print(request)
+    print(session["id"])
     if request.method == "POST":
-        pass
+        for i in request.form:
+            answered = db.session.query(CurAnswers).filter(CurAnswers.test_id == session["last_test"]).first()
+            if not answered:
+                db.session.add(CurAnswers(session["id"], request.form[i], session["last_test"]))
+            else:
+                answered.answer = request.form[i]
+                answered.user_id = session["id"]
+                answered.test_id = session["last_test"]
+            db.session.commit()
+        session["last_test"] = index
+        return redirect("/test/" + str(index))
+
     if "name" in session:
-        return render_template("test.html")
+        session["last_test"] = index
+        return render_template("test.html", index=index, n_index=index + 1, p_index=index - 1,
+                               question=question.text, pos_answers=pos_answers,
+                               next_btn_text=next_btn_text, prev_btn_text=prev_btn_text)
     else:
         return redirect(url_for("login"))
+
+
+@app.route('/done')
+def done():
+    session["last_test"] = 1
+    points = 0
+    cur_ans = db.session.query(CurAnswers).filter(CurAnswers.user_id == session["id"]).all()
+    for answer in cur_ans:
+        ans = db.session.query(Answers).filter(Answers.text == answer.answer).first()
+        points += ans.value
+        db.session.delete(answer)
+    db.session.add(TestStats(session["id"], points))
+    db.session.commit()
+    return render_template("done.html")
 
 
 @app.route('/profile')

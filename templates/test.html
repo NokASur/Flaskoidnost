@@ -8,36 +8,32 @@
 
 {% block main %}
     <main class="form-question">
-        <h1>Question №1</h1>
+        <h1>Question {{ index|int }}</h1>
+
     </main>
+    <h2>{{ question }}</h2>
     <main class="form-variants">
-        <form>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="check1" onchange="function checkout_others() {
-                    var i ;
-                    i = document.getElementById('check2');
-                    if (i.checked){
-                        i.checked = false;
-                    }
-                }
-                checkout_others()">
-                <label class="form-check-label" for="flexCheckDefault">
-                    var1
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="check2" checked onchange="function checkout_others() {
-                    var i ;
-                    i = document.getElementById('check1');
-                    if (i.checked){
-                        i.checked = false;
-                    }
-                }
-                checkout_others()">
-                <label class=" form-check-label" for="flexCheckChecked">
-                var2
-                </label>
-            </div>
+        <form action="{{ "/test/"+ (index|string) }}" id='a' method="POST">
+            {% for i in range(pos_answers|length) %}
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="{{ pos_answers[i].text }}" name="{{ 'check' +(i|string) }}" id="{{ 'check'+(i|string) }}" onchange="function checkout_others(id={{ i|string }}) {
+                            let i ;
+                            for (let y = 0; y < {{ pos_answers|length }}; y ++){
+                            i = document.getElementById('check'+y);
+                            if ('check'+id !== i.id){
+                            i.checked = false;
+                            }
+                            }
+                            }
+                            checkout_others()">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        {{ pos_answers[i].text }}
+                    </label>
+                </div>
+            {% endfor %}
+
+            <button type="submit" class="btn btn-primary" formaction="{{ "/test/"+ (n_index|string) }}" >{{ next_btn_text}}</button>
+            <button type="submit" class="btn btn-primary" formaction = "{{ "/test/"+ (p_index|string) }}">{{ prev_btn_text}}</button>
         </form>
     </main>
 

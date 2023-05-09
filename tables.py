@@ -14,15 +14,17 @@ db = SQLAlchemy(app)
 
 
 class User(db.Model):
-    _id = db.Column("id", db.Integer, primary_key=True)
+    id = db.Column("id", db.Integer, primary_key=True)
     name = db.Column(db.String(100))
     email = db.Column(db.String(100))
     password = db.Column(db.String(100))
+    admin = db.Column(db.Integer)
 
-    def __init__(self, password, email, name):
+    def __init__(self, password, email, name, admin=0):
         self.name = name
         self.email = email
         self.password = password
+        self.admin = admin
 
     def repr(self):
         return "Name: " + self.name + "\nEmail: " + self.email
@@ -44,18 +46,41 @@ class TestStats(db.Model):
 
 
 class Tests(db.Model):
-    _id = db.Column("id", db.Integer, primary_key=True)
+    id = db.Column("id", db.Integer, primary_key=True)
     text = db.Column(db.String(1000))
-    in_big = db.Column(db.Boolean)
-    in_small = db.Column(db.Boolean)
 
-    def __init__(self, text, in_big=True, in_small=False):
+    def __init__(self, text):
         self.text = text
-        self.in_big = in_big
-        self.in_small = in_small
 
     def repr(self):
         return self.text
+
+
+class Answers(db.Model):
+    _id = db.Column("id", db.Integer, primary_key=True)
+    text = db.Column(db.String(100))
+    question_id = db.Column(db.Integer)
+    value = db.Column(db.Integer)
+
+    def __init__(self, text, question_id, value):
+        self.text = text
+        self.question_id = question_id
+        self.value = value
+
+    def repr(self):
+        return self.text
+
+
+class CurAnswers(db.Model):
+    _id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer)
+    test_id = db.Column(db.Integer)
+    answer = db.Column(db.String(100))
+
+    def __init__(self, user_id, answer, test_id):
+        self.user_id = user_id
+        self.answer = answer
+        self.test_id = test_id
 
 
 db.create_all()
