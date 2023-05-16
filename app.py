@@ -1,20 +1,34 @@
 from flask import redirect, url_for, render_template, request, session, flash
 from tables import *
+from levels import *
+from tasks import *
+
+for task in all_tasks:  # task_name/Day/Times/Level
+    data = db.session.query(PhysTask).filter(PhysTask.task_name == task[0], PhysTask.day == task[1], PhysTask.times == task[2], PhysTask.level == task[3]).first()
+    if data:
+        pass
+        # print(data.day)
+        # print(data.times)
+        # print(data.level)
+        # print(data.task_name)
+    else:
+        db.session.add(PhysTask(task[0], task[1], task[2], task[3]))
+db.session.commit()
 
 question_text = "What is your Weight?"
 # print(db.session.query(Tests).filter(Tests.text == question_text))
 if not db.session.query(Tests).filter(Tests.text == question_text).all():
     db.session.add(Tests(question_text))
     question_id = db.session.query(Tests).filter(Tests.text == question_text).first().id
-    db.session.add(Answers("<50kg", question_id, 2))
+    db.session.add(Answers("<50kg", question_id, 0))
     db.session.add(Answers("50-70kg", question_id, 1))
-    db.session.add(Answers(">70kg", question_id, 0))
+    db.session.add(Answers(">70kg", question_id, 1))
 
 question_text = "What is your Height?"
 if not db.session.query(Tests).filter(Tests.text == question_text).all():
     db.session.add(Tests(question_text))
     question_id = db.session.query(Tests).filter(Tests.text == question_text).first().id
-    db.session.add(Answers("<170sm", question_id, 2))
+    db.session.add(Answers("<170sm", question_id, 0))
     db.session.add(Answers("170-180sm", question_id, 1))
     db.session.add(Answers(">180sm", question_id, 0))
 
@@ -60,6 +74,7 @@ def login(meta_fill="Name/Email", password_fill="Password"):
                 session["name"] = account.name
                 session["id"] = db.session.query(User).filter(User.name == session["name"]).first().id
                 session["last_test"] = 1
+                session["cur_level"] = db.session.query(User).filter(User.name == session["name"]).first().level
                 bad = 0
         if bad:
             return render_template("login.html", meta_fill=meta_fill, password_fill=password_fill)
@@ -103,6 +118,7 @@ def sign_up(email_fill="Email", name_fill="Nickname", password_fill="Password"):
         session["email"] = request.form["email"]
         session["name"] = request.form["name"]
         session["last_test"] = 1
+        session["cur_level"] = 0
         session.permanent = True
         db.session.add(User(session["password"], session["email"], session["name"]))
         db.session.commit()
@@ -118,7 +134,11 @@ def sign_up(email_fill="Email", name_fill="Nickname", password_fill="Password"):
 @app.route('/logout')
 def logout():
     if "name" in session:
-        session.pop("name")
+        arr = []
+        for entry in session:
+            arr.append(entry)
+        for entry in arr:
+            session.pop(entry)
     return redirect(url_for('login'))
 
 
@@ -173,7 +193,10 @@ def done():
         ans = db.session.query(Answers).filter(Answers.text == answer.answer).first()
         points += ans.value
         db.session.delete(answer)
-    db.session.add(TestStats(session["id"], points, len(db.session.query(TestStats).filter(TestStats.user_id == session["id"]).all())+1))
+    cur_level = db.session.query(User).filter(User.id == session["id"]).first().level
+    cur_level = max(cur_level, get_level(points))
+    session["cur_level"] = cur_level
+    db.session.add(TestStats(session["id"], points, len(db.session.query(TestStats).filter(TestStats.user_id == session["id"]).all()) + 1))
     db.session.commit()
     return render_template("done.html")
 
@@ -197,6 +220,7 @@ def recommendations():
     if request.method == "POST":
         pass
     if "name" in session:
-        return render_template("recommendations.html")
+        rec_tasks = db.session.query(PhysTask).filter(PhysTask.level == session["cur_level"]).all()
+        return render_template("recommendations.html", cur_level=session["cur_level"], rec_tasks=rec_tasks)
     else:
         return redirect(url_for("login"))

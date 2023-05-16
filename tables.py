@@ -5,8 +5,8 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
 app = Flask(__name__)
-app.secret_key = "BASIC_KEY"
-# environ["SECRET_KEY"] or
+app.secret_key = environ["SECRET_KEY"]
+
 app.pemanent_session_lifetime = timedelta(minutes=0)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.sqlite3'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -20,12 +20,14 @@ class User(db.Model):
     email = db.Column(db.String(100))
     password = db.Column(db.String(100))
     admin = db.Column(db.Integer)
+    level = db.Column(db.Integer)
 
-    def __init__(self, password, email, name, admin=0):
+    def __init__(self, password, email, name, level=0, admin=0):
         self.name = name
         self.email = email
         self.password = password
         self.admin = admin
+        self.level = level
 
     def repr(self):
         return "Name: " + self.name + "\nEmail: " + self.email
@@ -84,6 +86,20 @@ class CurAnswers(db.Model):
         self.user_id = user_id
         self.answer = answer
         self.test_id = test_id
+
+
+class PhysTask(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    task_name = db.Column(db.String(100))
+    day = db.Column(db.Integer)
+    times = db.Column(db.Integer)
+    level = db.Column(db.Integer)
+
+    def __init__(self, task_name, day, times, level):
+        self.task_name = task_name
+        self.day = day
+        self.times = times
+        self.level = level
 
 
 db.create_all()
