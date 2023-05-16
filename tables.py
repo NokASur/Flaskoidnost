@@ -5,7 +5,8 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
 app = Flask(__name__)
-app.secret_key = environ["SECRET_KEY"] or "BASIC_KEY"
+app.secret_key = "BASIC_KEY"
+# environ["SECRET_KEY"] or
 app.pemanent_session_lifetime = timedelta(minutes=0)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.sqlite3'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -35,11 +36,13 @@ class TestStats(db.Model):
     user_id = db.Column(db.Integer)
     points = db.Column(db.Integer)
     date = db.Column(db.DateTime)
+    test_number = db.Column(db.Integer)
 
-    def __init__(self, user_id, points, date=datetime.now()):
+    def __init__(self, user_id, points, test_number, date=datetime.now()):
         self.user_id = user_id
         self.points = points
         self.date = date
+        self.test_number = test_number
 
     def repr(self):
         return "Date and time: " + str(self.date) + ", points: " + str(self.points)

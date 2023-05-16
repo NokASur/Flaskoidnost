@@ -1,9 +1,54 @@
 {% extends "header_base.html" %}
 
+
 {% block title %}Beginning{% endblock %}
 
+{% block css_links %}
+    <link href="{{ url_for('static',filename='/css/grid.css') }}" rel="stylesheet">
+
+{% endblock %}
+
 {% block main %}
+    <div class="container">
+        <p class="mt-5">Find out about your profile here</p>
+        <h2 class="mt-4"></h2>
+        <div class="row mb-3">
+            <div class="col-md-8 themed-grid-col">
+                <div class="pb-3">
+                    Your account data
+                </div>
+                <div class="row">
+                    <div class="col-md-6 themed-grid-col">Name:</div>
+                    <div class="col-md-6 themed-grid-col">{{ name }}</div>
+                    <div class="col-md-6 themed-grid-col">Email:</div>
+                    <div class="col-md-6 themed-grid-col">{{ email }}</div>
+                    <div class="col-md-6 themed-grid-col">Password</div>
+                    <div class="col-md-6 themed-grid-col">{{ password }}</div>
 
-    <p>Your Data here</p>
+                </div>
+            </div>
 
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-8 themed-grid-col">
+                <div class="pb-3">Your tests and level</div>
+                {% if stats == '' %}
+                    <div class="row mb-3">Sadly, no tests passed</div>
+                {% else %}
+                    {% for stat in stats %}
+                        <div class="row mb-3">
+                            <div class="pb-3">Test # {{ stat.test_number}}</div>
+                            <div class="col-md-6 themed-grid-col"> points: </div>
+                            <div class="col-md-6 themed-grid-col"> {{stat.points}} </div>
+                            <div class="col-md-6 themed-grid-col"> date: </div>
+                            <div class="col-md-6 themed-grid-col"> {{stat.date}} </div>
+                        </div>
+                    {% endfor %}
+
+                {% endif %}
+                </div>
+            </div>
+            <h2 class="mt-4">About levels...</h2>
+
+        </div>
 {% endblock %}

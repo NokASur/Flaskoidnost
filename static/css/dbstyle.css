@@ -1,0 +1,29 @@
+.db_bg_main_color {
+    background: #d1ccc5;
+}
+
+.db_center {
+    top: 50%;
+    transform: translate(0, -50%);
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /*padding-top: 7%;*/
+    padding-bottom: 40px;
+    color: #ffffff;
+}
+
+.db_orange_text {
+    color: #ff3212;
+}
+
+.db_main_beackpic {
+    background: url("../../static/img/main pic.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+

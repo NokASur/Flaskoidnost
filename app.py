@@ -173,7 +173,7 @@ def done():
         ans = db.session.query(Answers).filter(Answers.text == answer.answer).first()
         points += ans.value
         db.session.delete(answer)
-    db.session.add(TestStats(session["id"], points))
+    db.session.add(TestStats(session["id"], points, len(db.session.query(TestStats).filter(TestStats.user_id == session["id"]).all())+1))
     db.session.commit()
     return render_template("done.html")
 
@@ -183,7 +183,11 @@ def profile():
     if request.method == "POST":
         pass
     if "name" in session:
-        return render_template("profile.html")
+        stats = db.session.query(TestStats).filter(TestStats.user_id == session["id"]).all()
+        if stats:
+            return render_template("profile.html", stats=stats, name=session["name"], email=session["email"], password=session["password"])
+        else:
+            return render_template("profile.html", stats='', name=session["name"], email=session["email"], password=session["password"])
     else:
         return redirect(url_for("login"))
 

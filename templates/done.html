@@ -1,13 +1,18 @@
 {% extends "header_base.html" %}
 
+
 {% block title %}
 FINISHING
 {% endblock %}
 
 {% block main %}
-    <form action="/">
+<div class="card mt-5 bg-dark text-light">
+    <div class="card-body">
+    <form class="mt-5" action="/">
         <h1>Your results were successfully saved.</h1>
         <h2>Please press this button to return to home page</h2>
-        <button>Confirm</button>
+        <button class="btn btn-warning">Confirm</button>
     </form>
+    </div>
+</div>
 {%endblock%}

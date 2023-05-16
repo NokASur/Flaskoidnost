@@ -1,9 +1,36 @@
 {% extends "header_base.html" %}
 
+
 {% block title %}Beginning{% endblock %}
+
+{% block css_links %}
+    <link rel="stylesheet" href="{{ url_for('static',filename='/css/main_beackpic.css') }}">
+{% endblock %}
 
 {% block main %}
 
-    <p>ABOUT US</p>
+    <section class="about mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h3 class="text-center mb-5 ">
+                        Приветствуем вас на сайте проекта</br>
+                        Office Athlete
+                    </h3>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-4 col-md-3"></div>
+                <div class="col-xl-4 col-md-6 col-xl-12">
+                    <p class="fs-5 ">
+                        На нашем сайте вы можете пройти опрос и получить индивидуальный
+                        список рекомендованных упражнений.
+                    </p>
+                </div>
+                <div class="col-xl-4 col-md-3"></div>
+            </div>
+        </div>
+    </section>
 
 {% endblock %}

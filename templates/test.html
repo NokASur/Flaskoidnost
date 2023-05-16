@@ -1,20 +1,23 @@
 {% extends "header_base.html" %}
 
+
 {% block title %}Test{% endblock %}
 
 {% block css_links %}
-    <link rel="stylesheet" href="{{ url_for('static',filename='/css/tests.css') }}">
+<link rel="stylesheet" href="{{ url_for('static',filename='/css/tests.css') }}">
 {% endblock %}
 
 {% block main %}
-    <main class="form-question">
-        <h1>Question {{ index|int }}</h1>
+<div class="card mt-5 bg-dark text-light">
+    <div class="card-body">
+        <main class="form-question">
+            <h1>Question {{ index|int }}</h1>
 
-    </main>
-    <h2>{{ question }}</h2>
-    <main class="form-variants">
-        <form action="{{ "/test/"+ (index|string) }}" id='a' method="POST">
-            {% for i in range(pos_answers|length) %}
+        </main>
+        <h2>{{ question }}</h2>
+        <main class="form-variants">
+            <form action="{{ '/test/' + (index|string) }}" id='a' method="POST">
+                {% for i in range(pos_answers|length) %}
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" value="{{ pos_answers[i].text }}" name="{{ 'check' +(i|string) }}" id="{{ 'check'+(i|string) }}" onchange="function checkout_others(id={{ i|string }}) {
                             let i ;
@@ -30,11 +33,16 @@
                         {{ pos_answers[i].text }}
                     </label>
                 </div>
-            {% endfor %}
+                {% endfor %}
 
-            <button type="submit" class="btn btn-primary" formaction="{{ "/test/"+ (n_index|string) }}" >{{ next_btn_text}}</button>
-            <button type="submit" class="btn btn-primary" formaction = "{{ "/test/"+ (p_index|string) }}">{{ prev_btn_text}}</button>
-        </form>
-    </main>
-
+                <div class="d-grid gap-2 mx-auto">
+                    <button type="submit" class="btn btn-warning" formaction="{{ "
+                    /test/"+ (n_index|string) }}" >{{ next_btn_text}}</button>
+                    <button type="submit" class="btn btn-warning" formaction="{{ "
+                    /test/"+ (p_index|string) }}">{{ prev_btn_text}}</button>
+                </div>
+            </form>
+        </main>
+    </div>
+</div>
 {% endblock %}
