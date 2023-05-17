@@ -5,11 +5,12 @@
 
 {% block css_links %}
     <link href="{{ url_for('static',filename='/css/grid.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static',filename='/css/main_beackpic.css') }}" rel="stylesheet">
+
 
 {% endblock %}
 
 {% block main %}
+<body class="db_bg_main_color db_main_beackpic">
     <div class="container md-5 text-center center">
         <h3 class="mt-5">Find out about your profile here</h3>
         <h2 class="mt-4"></h2>
@@ -59,15 +60,16 @@
             <p>It is advised to take a test every few weeks in order to keep difficulty of your tasks in line with your actual possibilities</p>
 
             <h3>Level descriptions</h3>
-            <p style="color: greenyellow;">First level (1) - You are just starting out, and you need to actively try your muscles in action</p>
-            <p style="color: green;">Second Level (2) - You have some experience with basic exercises and starting to increase your limits</p>
-            <p style="color: blue;">Second Level (3) - You have achieved a decent level already, but some specific activities can still be hard for you</p>
-            <p style="color: yellow;">Second Level (4) - You are close to mastering out your stamina and power</p>
-            <p style="color: red;">Second Level (5) - You are a guru of sport and actively seeking out for our toughest challenges</p>
+            <p >First level (1) - You are just starting out, and you need to actively try your muscles in action</p>
+            <p >Second Level (2) - You have some experience with basic exercises and starting to increase your limits</p>
+            <p >Second Level (3) - You have achieved a decent level already, but some specific activities can still be hard for you</p>
+            <p >Second Level (4) - You are close to mastering out your stamina and power</p>
+            <p >Second Level (5) - You are a guru of sport and actively seeking out for our toughest challenges</p>
             <p> </p>
             <p> </p>
         <div class="mt-5"></div>
 
 
         </div>
+</body>
 {% endblock %}

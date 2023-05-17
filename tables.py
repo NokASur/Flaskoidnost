@@ -5,8 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
 app = Flask(__name__)
-# app.secret_key = environ["SECRET_KEY"]
-app.secret_key = "sdfafsdfsdf"
+app.secret_key = "asfsffsdf"
 
 app.pemanent_session_lifetime = timedelta(minutes=0)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.sqlite3'
