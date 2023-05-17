@@ -9,94 +9,101 @@
 {% endblock %}
 
 {% block main %}
-    <div class="container">
-        <p class="mt-5">Track your results here!</p>
+<body class="db_bg_main_color db_main_beackpic">
+    <div class="container text-center">
+        <h3 class="mt-5">Track your results here!</h3>
         <div class="row mb-3">
-            <div class="col-md-8 themed-grid-col">
-                <div class="pb-3">
+            <div class="col-2"></div>
+            <div class="col-md-8 themed-grid-col card">
+                <div class="pb-3 fs-4">
                     Your account data
                 </div>
                 <div class="row">
-                    <div class="col-md-6 themed-grid-col">Your best level:</div>
-                    <div class="col-md-6 themed-grid-col">{{ cur_level }}</div>
+                    <div class="col-md-6 themed-grid-col fs-6">Your best level:</div>
+                    <div class="col-md-6 themed-grid-col fs-6">{{ cur_level }}</div>
                 </div>
             </div>
         </div>
         <div class="row mb-3">
             {% if cur_level==0 %}
-                <div class="pb-3">
+                <div class="pb-3 fs-4">
                     please, take a test to determine your training plan
                 </div>
             {% else %}
                 <div class="pb-3">
                     <div class="row mb-3">
-                        <div class="col-md-8 themed-grid-col">
+                        <div class="col-2"></div>
+                        <div class="col-md-8 themed-grid-col mb-5 card fs-4">
                             Adjusting to your physical level ({{ cur_level }}), we can offer you this plan:
-                            <div class="row">
-                                <div class="col-md-6 themed-grid-col">Monday
+                            <div class="row fs-5 ms-5 ">
+                                <div class="col-md-5 themed-grid-col">Monday
                                     {% for task in rec_tasks %}
                                         {% if task.day == 1 %}
-                                            <div class="row">
+                                            <div class="row fs-6 ms-2 me-2">
                                                 <div class="col-md-6 themed-grid-col">{{ task.task_name }}</div>
                                                 <div class="col-md-6 themed-grid-col">{{ task.times }}</div>
                                             </div>
                                         {% endif %}
                                     {% endfor %}
                                 </div>
-                                <div class="col-md-6 themed-grid-col">Tuesday
+                                <div class="col-1"></div>
+                                <div class="col-md-5 themed-grid-col">Tuesday
                                     {% for task in rec_tasks %}
                                         {% if task.day == 2 %}
-                                            <div class="row">
+                                            <div class="row fs-6 ms-2 me-2">
                                                 <div class="col-md-6 themed-grid-col">{{ task.task_name }}</div>
                                                 <div class="col-md-6 themed-grid-col">{{ task.times }}</div>
                                             </div>
                                         {% endif %}
                                     {% endfor %}
                                 </div>
-                                <div class="col-md-6 themed-grid-col">Wednesday
+                                <div class="col-md-5 themed-grid-col">Wednesday
                                     {% for task in rec_tasks %}
                                         {% if task.day == 3 %}
-                                            <div class="row">
+                                            <div class="row fs-6 ms-2 me-2">
                                                 <div class="col-md-6 themed-grid-col">{{ task.task_name }}</div>
                                                 <div class="col-md-6 themed-grid-col">{{ task.times }}</div>
                                             </div>
                                         {% endif %}
                                     {% endfor %}
                                 </div>
-                                <div class="col-md-6 themed-grid-col">Thursday
+                                <div class="col-1"></div>
+                                <div class="col-md-5 themed-grid-col">Thursday
                                     {% for task in rec_tasks %}
                                         {% if task.day == 4 %}
-                                            <div class="row">
+                                            <div class="row fs-6 ms-2 me-2">
                                                 <div class="col-md-6 themed-grid-col">{{ task.task_name }}</div>
                                                 <div class="col-md-6 themed-grid-col">{{ task.times }}</div>
                                             </div>
                                         {% endif %}
                                     {% endfor %}
                                 </div>
-                                <div class="col-md-6 themed-grid-col">Friday
+                                <div class="col-md-5 themed-grid-col">Friday
                                     {% for task in rec_tasks %}
                                         {% if task.day == 5 %}
-                                            <div class="row">
+                                            <div class="row fs-6 ms-2 me-2">
                                                 <div class="col-md-6 themed-grid-col">{{ task.task_name }}</div>
                                                 <div class="col-md-6 themed-grid-col">{{ task.times }}</div>
                                             </div>
                                         {% endif %}
                                     {% endfor %}
                                 </div>
-                                <div class="col-md-6 themed-grid-col">Saturday
+                                <div class="col-1"></div>
+                                <div class="col-md-5 themed-grid-col">Saturday
                                     {% for task in rec_tasks %}
                                         {% if task.day == 6 %}
-                                            <div class="row">
+                                            <div class="row fs-6 ms-2 me-2">
                                                 <div class="col-md-6 themed-grid-col">{{ task.task_name }}</div>
                                                 <div class="col-md-6 themed-grid-col">{{ task.times }}</div>
                                             </div>
                                         {% endif %}
                                     {% endfor %}
                                 </div>
-                                <div class="col-md-6 themed-grid-col">Sunday
+
+                                <div class="col-md-5 themed-grid-col">Sunday
                                     {% for task in rec_tasks %}
                                         {% if task.day == 7 %}
-                                            <div class="row">
+                                            <div class="row fs-6 ms-2 me-2">
                                                 <div class="col-md-6 themed-grid-col">{{ task.task_name }}</div>
                                                 <div class="col-md-6 themed-grid-col">{{ task.times }}</div>
                                             </div>
@@ -107,12 +114,14 @@
                             </div>
 
                         </div>
+                        <div class="col-2"></div>
 
                     </div>
                 </div>
 
             {% endif %}
         </div>
-    </div>
 
+    </div>
+</body>
 {% endblock %}

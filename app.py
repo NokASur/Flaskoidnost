@@ -2,6 +2,7 @@ from flask import redirect, url_for, render_template, request, session, flash
 from tables import *
 from levels import *
 from tasks import *
+from tests import *
 
 for task in all_tasks:  # task_name/Day/Times/Level
     data = db.session.query(PhysTask).filter(PhysTask.task_name == task[0], PhysTask.day == task[1], PhysTask.times == task[2], PhysTask.level == task[3]).first()
@@ -15,26 +16,39 @@ for task in all_tasks:  # task_name/Day/Times/Level
         db.session.add(PhysTask(task[0], task[1], task[2], task[3]))
 db.session.commit()
 
-question_text = "What is your Weight?"
-# print(db.session.query(Tests).filter(Tests.text == question_text))
-if not db.session.query(Tests).filter(Tests.text == question_text).all():
-    db.session.add(Tests(question_text))
-    question_id = db.session.query(Tests).filter(Tests.text == question_text).first().id
-    db.session.add(Answers("<50kg", question_id, 0))
-    db.session.add(Answers("50-70kg", question_id, 1))
-    db.session.add(Answers(">70kg", question_id, 1))
-
-question_text = "What is your Height?"
-if not db.session.query(Tests).filter(Tests.text == question_text).all():
-    db.session.add(Tests(question_text))
-    question_id = db.session.query(Tests).filter(Tests.text == question_text).first().id
-    db.session.add(Answers("<170sm", question_id, 0))
-    db.session.add(Answers("170-180sm", question_id, 1))
-    db.session.add(Answers(">180sm", question_id, 0))
+for question in all_questions:
+    data = db.session.query(Tests).filter(Tests.text == question[0]).first()
+    if data:
+        pass
+    else:
+        db.session.add(Tests(question[0]))
+        question_id = db.session.query(Tests).filter(Tests.text == question[0]).first().id
+        for answer in question[1]:
+            db.session.add(Answers(answer[0], question_id, answer[1]))
 
 db.session.commit()
 
-t = db.session.query(Tests).first()
+
+# question_text = "What is your Weight?"
+# # print(db.session.query(Tests).filter(Tests.text == question_text))
+# if not db.session.query(Tests).filter(Tests.text == question_text).all():
+#     db.session.add(Tests(question_text))
+#     question_id = db.session.query(Tests).filter(Tests.text == question_text).first().id
+#     db.session.add(Answers("<50kg", question_id, 0))
+#     db.session.add(Answers("50-70kg", question_id, 1))
+#     db.session.add(Answers(">70kg", question_id, 1))
+#
+# question_text = "What is your Height?"
+# if not db.session.query(Tests).filter(Tests.text == question_text).all():
+#     db.session.add(Tests(question_text))
+#     question_id = db.session.query(Tests).filter(Tests.text == question_text).first().id
+#     db.session.add(Answers("<170sm", question_id, 0))
+#     db.session.add(Answers("170-180sm", question_id, 1))
+#     db.session.add(Answers(">180sm", question_id, 0))
+#
+# db.session.commit()
+#
+# t = db.session.query(Tests).first()
 
 
 # print(t.text, t.in_big, t.in_small)
@@ -179,7 +193,7 @@ def test(index):
         session["last_test"] = index
         return render_template("test.html", index=index, n_index=index + 1, p_index=index - 1,
                                question=question.text, pos_answers=pos_answers,
-                               next_btn_text=next_btn_text, prev_btn_text=prev_btn_text)
+                               next_btn_text=next_btn_text, prev_btn_text=prev_btn_text, name=session["name"])
     else:
         return redirect(url_for("login"))
 
@@ -194,9 +208,9 @@ def done():
         points += ans.value
         db.session.delete(answer)
     cur_level = db.session.query(User).filter(User.id == session["id"]).first().level
-    cur_level = max(cur_level, get_level(points))
+    cur_level = get_level(max(0, points))
     session["cur_level"] = cur_level
-    db.session.add(TestStats(session["id"], points, len(db.session.query(TestStats).filter(TestStats.user_id == session["id"]).all()) + 1))
+    db.session.add(TestStats(session["id"], points, len(db.session.query(TestStats).filter(TestStats.user_id == session["id"]).all()) + 1), datetime.now())
     db.session.commit()
     return render_template("done.html")
 

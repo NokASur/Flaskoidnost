@@ -1,15 +1,15 @@
 .themed-grid-col {
   padding-top: .75rem;
   padding-bottom: .75rem;
-  background-color: rgba(86, 61, 124, .15);
-  border: 1px solid rgba(86, 61, 124, .2);
+  background-color: rgba(252, 210, 58, .5);
+  border: 1px solid rgba(252, 210, 58, .3);
 }
 
 .themed-container {
   padding: .75rem;
   margin-bottom: 1.5rem;
-  background-color: rgba(0, 123, 255, .15);
-  border: 1px solid rgba(0, 123, 255, .2);
+  background-color: rgba(0, 123, 255, .2);
+  border: 1px solid rgba(0, 123, 255, .1);
 }
 
 .pb-3{
@@ -17,4 +17,19 @@
 }
 .row{
   --bs-gutter-y: 0.5rem;
+}
+
+.centmain{
+    left: 0;
+    right: 0;
+    position: absolute;
+    margin: 0 auto;
+    top:50%;
+    transform: translate(0, -50%);
+}
+
+.trenz {
+    background: url("../../static/img/trenz.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
 }

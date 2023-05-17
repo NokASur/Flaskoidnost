@@ -4,19 +4,19 @@
     <h1 class="h3 mb-3 fw-normal">Please, sign up</h1>
 
     <div class="form-floating">
-        <input type="text" class="form-control" id="floatingInput" name="name">
+        <input type="text" class="form-control bg-secondary" id="floatingInput" name="name">
         <label for="floatingInput">{{ name_fill }}</label>
     </div>
     <div class="form-floating">
-        <input type="email" class="form-control" id="floatingInput" name="email">
+        <input type="email" class="form-control bg-secondary" id="floatingInput" name="email">
         <label for="floatingInput">{{ email_fill }}</label>
     </div>
     <div class="form-floating">
-        <input type="password" class="form-control" id="floatingPassword" name="password">
+        <input type="password" class="form-control bg-secondary" id="floatingPassword" name="password">
         <label for="floatingPassword">{{ password_fill }}</label>
     </div>
 {% endblock %}
 
 {% block reg_change %}
-    <a class="nav-link" href="/login">Login</a>
+    <a class="nav-link text-warning" href="/login">Login</a>
 {% endblock %}

@@ -1,9 +1,15 @@
 {% extends "base.html" %}
 
 {% block title %}Beginning{% endblock %}
-{% block main %}
 
-    <main class="form-signin">
+{% block css_links %}
+    <link href="{{ url_for('static',filename='/css/grid.css') }}" rel="stylesheet">
+
+{% endblock %}
+
+{% block main %}
+<body class="db_bg_main_color trenz">
+    <main class="form-signin card bg-dark">
         <form method="POST" action="#">
             {#    <img class="mb-4" src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">#}
             {% block information %}
@@ -19,5 +25,5 @@
             <p class="mt-5 mb-3 text-muted">&copy; 2023-2023</p>
         </form>
     </main>
-
+</body>
 {% endblock %}

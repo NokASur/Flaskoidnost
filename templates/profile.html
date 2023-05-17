@@ -5,15 +5,17 @@
 
 {% block css_links %}
     <link href="{{ url_for('static',filename='/css/grid.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static',filename='/css/main_beackpic.css') }}" rel="stylesheet">
 
 {% endblock %}
 
 {% block main %}
-    <div class="container">
-        <p class="mt-5">Find out about your profile here</p>
+    <div class="container md-5 text-center center">
+        <h3 class="mt-5">Find out about your profile here</h3>
         <h2 class="mt-4"></h2>
-        <div class="row mb-3">
-            <div class="col-md-8 themed-grid-col">
+        <div class="row mb-3 text-center">
+            <div class="col-3"></div>
+            <div class="col-md-6 themed-grid-col card">
                 <div class="pb-3">
                     Your account data
                 </div>
@@ -27,10 +29,12 @@
 
                 </div>
             </div>
+            <div class="col-3"></div>
 
         </div>
         <div class="row mb-3">
-            <div class="col-md-8 themed-grid-col">
+            <div class="col-3"></div>
+            <div class="col-md-6 themed-grid-col card">
                 <div class="pb-3">Your tests and level</div>
                 {% if stats == '' %}
                     <div class="row mb-3">Sadly, no tests passed</div>
@@ -47,8 +51,23 @@
 
                 {% endif %}
                 </div>
+                <div class="col-3"></div>
             </div>
-            <h2 class="mt-4">About levels...</h2>
+            <h2 class="mt-4">About levels...</h2><br>
+            <p>There are 5 levels of physical strength distinguished on our site. We determine your level after you completed your first test</p>
+            <p>Each level consists of progressively harder tasks and exercises with higher consistency. </p>
+            <p>It is advised to take a test every few weeks in order to keep difficulty of your tasks in line with your actual possibilities</p>
+
+            <h3>Level descriptions</h3>
+            <p style="color: greenyellow;">First level (1) - You are just starting out, and you need to actively try your muscles in action</p>
+            <p style="color: green;">Second Level (2) - You have some experience with basic exercises and starting to increase your limits</p>
+            <p style="color: blue;">Second Level (3) - You have achieved a decent level already, but some specific activities can still be hard for you</p>
+            <p style="color: yellow;">Second Level (4) - You are close to mastering out your stamina and power</p>
+            <p style="color: red;">Second Level (5) - You are a guru of sport and actively seeking out for our toughest challenges</p>
+            <p> </p>
+            <p> </p>
+        <div class="mt-5"></div>
+
 
         </div>
 {% endblock %}
